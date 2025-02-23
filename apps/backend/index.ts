@@ -8,15 +8,16 @@ import { prismaClient } from "db";
 import { FalAIModel } from "./models/FalAIModel";
 import { fal } from "@fal-ai/client";
 import { S3Client } from "bun";
+import cors from "cors";
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 const USERID = "12345";
 
 const PORT = process.env.PORT || 8080;
 const falAiModel = new FalAIModel();
- 
 
 app.get("/", (req, res) => {
   res.send("Hello, World!");
