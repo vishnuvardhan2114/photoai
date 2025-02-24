@@ -28,29 +28,26 @@ export async function authMiddleware(
     }
 
     // Debug logs
-    console.log("Received token:", token);
+    // console.log("Received token:", token);
 
     // Get the JWT verification key from environment variable
     const publicKey = process.env.CLERK_JWT_PUBLIC_KEY!;
-    console.log("publicKey>>>>>>>>>>>>>>>>>>>>>>", process.env.CLERK_JWT_PUBLIC_KEY);
-
     if (!publicKey) {
       console.error("Missing CLERK_JWT_PUBLIC_KEY in environment variables");
       res.status(500).json({ message: "Server configuration error" });
       return;
     }
-    
 
     // Format the public key properly
     const formattedKey = publicKey.replace(/\\n/g, "\n");
 
     const decoded = jwt.verify(token, formattedKey, {
       algorithms: ["RS256"],
-      issuer: process.env.CLERK_ISSUER || "https://clerk.100xdevs.com",
+      issuer: process.env.CLERK_ISSUER || "http://localhost:3000",
       complete: true,
     });
 
-    console.log("Decoded token:", decoded);
+    // console.log("Decoded token:", decoded);
 
     // Extract user ID from the decoded token
     const userId = (decoded as any).payload.sub;

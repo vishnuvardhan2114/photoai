@@ -24,14 +24,14 @@ export function TrustedBy() {
             transition={{ delay: 0.2 * index }}
             className="group relative"
           >
-            <div className="absolute -inset-2 bg-gradient-to-r from-purple-600/20 to-pink-600/20 rounded-lg blur opacity-0 group-hover:opacity-100 transition duration-500" />
-            <div className="relative grayscale hover:grayscale-0 transition-all duration-300">
+            <div className="absolute -inset-2 bg-gradient-to-r from-purple-600/20 to-pink-600/20 rounded-lg blur opacity-10 group-hover:opacity-100 transition duration-500" />
+            <div className="relative hover:grayscale-25 transition-all duration-300">
               <Image
                 src={brand.logo}
                 alt={brand.name}
-                width={120}
+                width={150}
                 height={40}
-                className="h-8 w-auto object-contain"
+                className="h-8 w-auto object-contain text-white"
               />
             </div>
           </motion.div>

@@ -13,7 +13,7 @@ import { ScrollIndicator } from "./ScrollIndicator";
 import { StatsSection } from "./StatsSection";
 import { PricingSection } from "./PricingSection";
 import { HowItWorks } from "./HowItWorks";
-// import { TrustedBy } from "./TrustedBy";
+import { TrustedBy } from "./TrustedBy";
 
 export function Hero() {
   return (
@@ -30,7 +30,7 @@ export function Hero() {
             transition={{ delay: 0.2, duration: 0.8 }}
             className="mt-16 space-y-32"
           >
-            {/* <TrustedBy /> */}
+            <TrustedBy />
 
             <section className="relative">
               <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/5 to-black/20 pointer-events-none" />
@@ -78,7 +78,7 @@ export function Hero() {
                     >
                       <SignInButton mode="modal">
                         <span className="flex items-center">
-                          Get Started Free
+                          Get Started 
                           <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                         </span>
                       </SignInButton>
@@ -107,7 +107,7 @@ export function Hero() {
                     <span className="hidden sm:inline text-gray-500">•</span>
                     <span className="flex items-center text-pink-300">
                       <Sparkles className="w-4 h-4 mr-1" />
-                      Free credits to start
+                      Need credits to start
                     </span>
                     <span className="hidden sm:inline text-gray-500">•</span>
                     <span className="flex items-center text-red-300">

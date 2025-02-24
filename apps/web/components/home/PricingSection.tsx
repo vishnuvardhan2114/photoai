@@ -6,6 +6,7 @@ import { useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Check } from "lucide-react";
 import { plans } from "./data";
+import Link from "next/link";
 
 export function PricingSection() {
   const ref = useRef(null);
@@ -39,16 +40,14 @@ export function PricingSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ delay: index * 0.2, duration: 0.5 }}
-            className={`relative group rounded-2xl ${
-              plan.highlighted
-                ? "bg-gradient-to-b from-purple-600 to-pink-600"
-                : "bg-white/5"
-            } p-px`}
+            className={`relative group rounded-2xl ${plan.highlighted
+              ? "bg-gradient-to-b from-purple-600 to-pink-600"
+              : "bg-white/5"
+              } p-px`}
           >
             <div
-              className={`rounded-2xl p-6 h-full ${
-                plan.highlighted ? "bg-black/90" : "bg-transparent"
-              }`}
+              className={`rounded-2xl p-6 h-full ${plan.highlighted ? "bg-black/90" : "bg-transparent"
+                }`}
             >
               <div className="space-y-4">
                 <h3 className="text-xl font-semibold">{plan.name}</h3>
@@ -61,15 +60,16 @@ export function PricingSection() {
                     </li>
                   ))}
                 </ul>
-                <Button
-                  className={`w-full ${
-                    plan.highlighted
+                <Link href="/pricing">
+                  <Button
+                    className={`w-full ${plan.highlighted
                       ? "bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600"
                       : "bg-white/10 hover:bg-white/20"
-                  }`}
-                >
-                  Get Started
-                </Button>
+                    }`}
+                  >
+                    Get Started
+                  </Button>
+                </Link>
               </div>
             </div>
           </motion.div>

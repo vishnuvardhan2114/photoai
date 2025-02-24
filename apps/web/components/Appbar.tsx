@@ -2,7 +2,7 @@
 
 import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { Button } from "./ui/button";
-// import { Credits } from "./navbar/Credits";
+import { Credits } from "./navbar/Credits";
 import Link from "next/link";
 import { motion } from "framer-motion";
 
@@ -57,7 +57,7 @@ export function Appbar() {
                 >
                   <Link href="/dashboard">Dashboard</Link>
                 </Button>
-                {/* <Credits /> */}
+                <Credits />
                 <UserButton
                   afterSignOutUrl="/"
                   appearance={{

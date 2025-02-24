@@ -26,7 +26,7 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@clerk/nextjs";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
-import { Brain, Upload } from "lucide-react";
+import { Brain } from "lucide-react";
 import { useCredits } from "@/hooks/use-credits";
 export function Train() {
   const { getToken } = useAuth();

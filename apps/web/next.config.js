@@ -9,7 +9,9 @@ const nextConfig = {
         "v3.fal.media",
         "www.google.com",
         "cdn.lucidpic.com",
-        "img.freepik.com"
+        "img.freepik.com",
+        "res.cloudinary.com",
+        "media.licdn.com"
       ],
     },
   };

@@ -96,6 +96,7 @@ model Subscription {
 }
 
 enum PlanType {
+  starter
   basic
   premium
 }

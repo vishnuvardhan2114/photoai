@@ -1,7 +1,7 @@
 import { BACKEND_URL } from "@/app/config";
 import { useEffect, useState } from "react";
 import { useAuth } from "./useAuth";
-// import { creditUpdateEvent } from "@/hooks/usePayment";
+import { creditUpdateEvent } from "@/hooks/usePayment";
 
 export function useCredits() {
     const { getToken } = useAuth();
@@ -48,13 +48,13 @@ export function useCredits() {
         };
     
         // Use the creditUpdateEvent instead of window
-        // creditUpdateEvent.addEventListener("creditUpdate", handleCreditUpdate);
+        creditUpdateEvent.addEventListener("creditUpdate", handleCreditUpdate);
     
         // Refresh credits every minute
         const interval = setInterval(fetchCredits, 60 * 1000);
     
         return () => {
-            // creditUpdateEvent.removeEventListener("creditUpdate", handleCreditUpdate);
+            creditUpdateEvent.removeEventListener("creditUpdate", handleCreditUpdate);
             clearInterval(interval);
         };
     }, []);
