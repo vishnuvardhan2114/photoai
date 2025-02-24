@@ -24,6 +24,7 @@ import { UploadModal } from '@/components/ui/upload'
 import { TrainModelInput } from "common/inferred"
 import axios from 'axios'
 import { BACKEND_URL } from '../config'
+import { useAuth } from "@clerk/nextjs"
 
 const Page = () => {
     const [zipUrl, setZipUrl] = useState("");
@@ -34,6 +35,7 @@ const Page = () => {
     const [bald, setBald] = useState(false)
     const [name, setName] = useState("")
     const router = useRouter();
+    const { getToken } = useAuth();
 
     async function trainModal() {
         // Add type here
@@ -47,14 +49,14 @@ const Page = () => {
             name
         };
 
-        // const token = await getToken()
-        // const response = await axios.post(`${BACKEND_URL}/ai/training`, input, {
-        //     headers: {
-        //         Authorization
-                
-        //         : `Bearer ${token}`
-        //     }
-        // });
+        const token = await getToken()
+        const response = await axios.post(`${BACKEND_URL}/ai/training`, input, {
+            headers: {
+                Authorization
+
+                    : `Bearer ${token}`
+            }
+        });
         router.push("/");
     }
 
@@ -146,7 +148,7 @@ const Page = () => {
                     }}>Cancel</Button>
                     <Button
                         disabled={!name || !zipUrl || !type || !age || !ethinicity || !eyeColor}
-                    onClick={trainModal}
+                        onClick={trainModal}
                     >Create Model</Button>
                 </CardFooter>
             </Card>

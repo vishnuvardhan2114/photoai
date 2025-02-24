@@ -1,3 +1,4 @@
+import { fal } from "@fal-ai/client";
 import express from "express";
 import {
   TrainModel,
@@ -5,23 +6,30 @@ import {
   GenerateImagesFromPack,
 } from "common/types";
 import { prismaClient } from "db";
-import { FalAIModel } from "./models/FalAIModel";
-import { fal } from "@fal-ai/client";
 import { S3Client } from "bun";
+import { FalAIModel } from "./models/FalAIModel";
 import cors from "cors";
+import { authMiddleware } from "./middleware";
+import dotenv from "dotenv";
 
-const app = express();
-app.use(express.json());
-app.use(cors());
+// import paymentRoutes from "./routes/payment.routes";
 
-const USERID = "12345";
+dotenv.config();
 
 const PORT = process.env.PORT || 8080;
+
 const falAiModel = new FalAIModel();
 
-app.get("/", (req, res) => {
-  res.send("Hello, World!");
-});
+const app = express();
+app.use(cors());
+
+//  {
+//   origin: ["", "http://localhost:3000"],
+//   credentials: true,
+//   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+//   allowedHeaders: ["Content-Type", "Authorization"],
+// }
+app.use(express.json());
 
 app.get("/pre-signed-url", async (req, res) => {
   const key = `models/${Date.now()}_${Math.random()}.zip`;
@@ -41,9 +49,9 @@ app.get("/pre-signed-url", async (req, res) => {
   });
 });
 
-app.post("/ai/training", async (req, res) => {
+app.post("/ai/training", authMiddleware, async (req, res) => {
   const parsedBody = TrainModel.safeParse(req.body);
-  // console.log(req.userId);
+  console.log(req.userId);
   if (!parsedBody.success) {
     res.status(411).json({
       message: "Input incorrect",
@@ -64,7 +72,7 @@ app.post("/ai/training", async (req, res) => {
       ethinicity: parsedBody.data.ethinicity,
       eyeColor: parsedBody.data.eyeColor,
       bald: parsedBody.data.bald,
-      userId: USERID,
+      userId: req.userId!,
       zipUrl: parsedBody.data.zipUrl,
       falAiRequestId: request_id,
     },
@@ -75,7 +83,7 @@ app.post("/ai/training", async (req, res) => {
   });
 });
 
-app.post("/ai/generate", async (req, res) => {
+app.post("/ai/generate", authMiddleware, async (req, res) => {
   const parsedBody = GenerateImage.safeParse(req.body);
 
   if (!parsedBody.success) {
@@ -105,7 +113,7 @@ app.post("/ai/generate", async (req, res) => {
   const data = await prismaClient.outputImages.create({
     data: {
       prompt: parsedBody.data.prompt,
-      userId: USERID,
+      userId: req.userId!,
       modelId: parsedBody.data.modelId,
       imageUrl: "",
       falAiRequestId: request_id,
@@ -117,7 +125,7 @@ app.post("/ai/generate", async (req, res) => {
   });
 });
 
-app.post("/pack/generate", async (req, res) => {
+app.post("/pack/generate", authMiddleware, async (req, res) => {
   const parsedBody = GenerateImagesFromPack.safeParse(req.body);
 
   if (!parsedBody.success) {
@@ -155,7 +163,7 @@ app.post("/pack/generate", async (req, res) => {
   const images = await prismaClient.outputImages.createManyAndReturn({
     data: prompts.map((prompt, index) => ({
       prompt: prompt.prompt,
-      userId: USERID,
+      userId: req.userId!,
       modelId: parsedBody.data.modelId,
       imageUrl: "",
       falAiRequestId: requestIds[index].request_id,
@@ -175,7 +183,7 @@ app.get("/pack/bulk", async (req, res) => {
   });
 });
 
-app.get("/image/bulk", async (req, res) => {
+app.get("/image/bulk", authMiddleware, async (req, res) => {
   const ids = req.query.ids as string[];
   const limit = (req.query.limit as string) ?? "100";
   const offset = (req.query.offset as string) ?? "0";
@@ -183,7 +191,7 @@ app.get("/image/bulk", async (req, res) => {
   const imagesData = await prismaClient.outputImages.findMany({
     where: {
       id: { in: ids },
-      userId: USERID,
+      userId: req.userId!,
       status: {
         not: "Failed",
       },
@@ -197,6 +205,18 @@ app.get("/image/bulk", async (req, res) => {
 
   res.json({
     images: imagesData,
+  });
+});
+
+app.get("/models", authMiddleware, async (req, res) => {
+  const models = await prismaClient.model.findMany({
+    where: {
+      OR: [{ userId: req.userId }, { open: true }],
+    },
+  });
+
+  res.json({
+    models,
   });
 });
 
@@ -263,6 +283,8 @@ app.post("/fal-ai/webhook/image", async (req, res) => {
   });
 });
 
+// app.use("/payment", paymentRoutes);
+
 app.listen(PORT, () => {
-  console.log("Server is running on port 8080");
+  console.log(`Server is running on port ${PORT}`);
 });
