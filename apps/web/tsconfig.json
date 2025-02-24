@@ -3,8 +3,10 @@
   "compilerOptions": {
     "plugins": [
       {
-        "name": "next"
-      }
+        "name": "next",
+        "typeRoots": ["./node_modules/@types", "./types"]
+      },
+      
     ],
 
     "baseUrl": ".",

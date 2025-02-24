@@ -1,12 +1,17 @@
-import { Button } from "@/components/ui/button";
+"use client";
+import { Hero } from "@/components/home/Hero";
+import { useAuth } from "@/hooks/useAuth";
+import { redirect } from "next/navigation";
+
 
 export default function Home() {
+  const { user } = useAuth();
+  if (user) {
+    redirect("/dashboard");
+  }
   return (
     <div>
-      <h1 className="text-7xl font-bold underline">
-        Hello world!
-        <Button className="mx-2" variant="outline">Start</Button>
-      </h1>
+      <Hero />
     </div>
   );
 }
