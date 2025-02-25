@@ -17,14 +17,5 @@
       "cache": false,
       "persistent": true
     }
-  },
-  "pipeline": {
-    "db:generate": {
-      "dependsOn": [],
-      "outputs": []
-    },
-    "backend": {
-      "dependsOn": ["db:generate"]
-    }
   }
 }
