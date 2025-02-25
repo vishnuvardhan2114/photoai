@@ -4,7 +4,8 @@
   "type": "module",
   "scripts": {
     "start": "bun run index.ts",
-     "dev": "turbo run db:generate && bun run index.ts"
+    "dev": "bun run index.ts",
+    "build": "turbo run build && bun run db:generate"
   },
   "private": true,
   "devDependencies": {
