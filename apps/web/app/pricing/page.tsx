@@ -58,13 +58,11 @@ export default function SubscriptionPage() {
   ] as const;
 
   const handlePlanSelect = (plan: PlanType, isAnnual: boolean) => {
-    console.log("handlePlanSelect", plan, isAnnual)
     setSelectedPlan({ plan, isAnnual });
-    handlePaymentSubmit("razorpay")
+    handlePaymentSubmit("stripe")
   };
 
   const handlePaymentSubmit = async (method: "stripe" | "razorpay") => {
-    console.log("handlePaymentSubmit", method)
     if (!selectedPlan) return;
 
     await handlePayment(selectedPlan.plan, selectedPlan.isAnnual, method);

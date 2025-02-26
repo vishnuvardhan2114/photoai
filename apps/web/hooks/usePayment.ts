@@ -31,21 +31,17 @@ export function usePayment() {
   ) => {
     try {
       if (success) {
-        console.log("Processing successful payment:", data);
-
         // Update credits first
         if (data?.credits) {
           creditUpdateEvent.dispatchEvent(
             new CustomEvent("creditUpdate", { detail: data.credits })
           );
         }
-
         // Show success toast
         toast({
           title: "Payment Successful",
           description: "Your credits have been added to your account",
         });
-
         // Use router for programmatic navigation
         router.push("/payment/success");
         return;
