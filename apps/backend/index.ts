@@ -22,7 +22,7 @@ const falAiModel = new FalAIModel();
 const app = express();
 app.use(
   cors({
-    origin: ["https://photoai-web-five.vercel.app/", "http://localhost:3000"],
+    origin: ["https://photoai-web-nu.vercel.app/pricing", "http://localhost:3000"],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
