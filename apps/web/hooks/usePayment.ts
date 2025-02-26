@@ -9,11 +9,6 @@ import { RazorpayResponse } from "@/types";
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_KEY!);
 const apiUrl = BACKEND_URL;
 
-console.log(
-  "process.env.NEXT_PUBLIC_STRIPE_KEY",
-  process.env.NEXT_PUBLIC_STRIPE_KEY
-);
-
 // Create an event bus for credit updates
 export const creditUpdateEvent = new EventTarget();
 
