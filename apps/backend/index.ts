@@ -22,7 +22,11 @@ const falAiModel = new FalAIModel();
 const app = express();
 app.use(
   cors({
-    origin: ["https://photoai-web-nu.vercel.app/pricing", "http://localhost:3000"],
+    origin: [
+      "https://photoai-web-nu.vercel.app",
+      "https://imageai.vishnuvardhan.site",
+      "http://localhost:3000",
+    ],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
@@ -232,6 +236,7 @@ app.post("/fal-ai/webhook/train", async (req, res) => {
   });
 
   const { imageUrl } = await falAiModel.generateImageSync(
+    // @ts-ignore
     result.data.diffusers_lora_file.url
   );
 
